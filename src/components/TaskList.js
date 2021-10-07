@@ -2,15 +2,9 @@ import React from "react";
 import Task from './Task';
 
 
-function TaskList({tasks}) {
+function TaskList({tasks, handleDelete}) {
 
-function handleDelete(deletedTask) {
-  console.log(deletedTask)
-}
  
-
-  
-
   return (
     <div className="tasks">
       {/* display a list of tasks using Task component */}
