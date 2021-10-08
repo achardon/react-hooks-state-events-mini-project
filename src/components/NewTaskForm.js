@@ -1,8 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 // import { TASKS } from "../data";
 
-function NewTaskForm({categories, newTask, setNewTask, onTaskFormSubmit}) {
+function NewTaskForm({categories, onTaskFormSubmit}) {
   
+  const [newTask, setNewTask] = useState({
+    text: '',
+    category: 'Code'
+  })
+
+  let text = newTask.text
+  let category = newTask.category
+
   function manageData(event) {
     let name = event.target.name
     let value = event.target.value
@@ -12,10 +20,19 @@ function NewTaskForm({categories, newTask, setNewTask, onTaskFormSubmit}) {
     })
   }
 
+  function handleOnTaskFormSubmit(e) {
+    e.preventDefault()
+    onTaskFormSubmit(newTask)
+    setNewTask({
+      text: '',
+      category: 'Code'
+    })
+  }
+
   return (
     <form 
     className="new-task-form"
-    onSubmit={onTaskFormSubmit}
+    onSubmit={handleOnTaskFormSubmit}
     >
       <label>
         Details
@@ -23,7 +40,7 @@ function NewTaskForm({categories, newTask, setNewTask, onTaskFormSubmit}) {
         type="text" 
         name="text" 
         onChange={manageData}
-        value={newTask.text}
+        value={text}
         />
       </label>
       <label>
@@ -31,7 +48,7 @@ function NewTaskForm({categories, newTask, setNewTask, onTaskFormSubmit}) {
         <select 
         name="category"
         onChange={manageData}
-        value={newTask.category}
+        value={category}
         >
           {/* render <option> elements for each category here */}
           {categories.map(category => {
@@ -40,7 +57,6 @@ function NewTaskForm({categories, newTask, setNewTask, onTaskFormSubmit}) {
             }
             return true
           })}
-          
         </select>
       </label>
       <input type="submit" value="Add task" />
