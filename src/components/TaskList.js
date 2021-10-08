@@ -10,7 +10,9 @@ function TaskList({tasks, handleDelete}) {
       {tasks.map(task => {
         return <Task 
         key={task.text} 
-        task={task}
+        // task={task}
+        category={task.category}
+        text={task.text}
         handleDelete={handleDelete}
         />
       })}
