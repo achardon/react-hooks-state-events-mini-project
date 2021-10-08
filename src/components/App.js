@@ -4,47 +4,56 @@ import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
 
 import { CATEGORIES, TASKS } from "../data";
-console.log("Here's the data you're working with");
-console.log({ CATEGORIES, TASKS });
+// console.log("Here's the data you're working with");
+// console.log({ CATEGORIES, TASKS });
 
 
 
 function App() {
 
   const [tasks, setTasks] = useState(TASKS)
+  const [newTask, setNewTask] = useState({
+    text: '',
+    category: 'Code'
+  })
+  const [selectedCategory, setCategory] = useState('All')
 
-  function handleCategoryClick(selectedCategory) {
-    console.log(selectedCategory)
-    //NEED TO RE-ADD TASKS THAT WERE FILTERED OUT FROM LAST CATEGORY SELECTION - NEED TO ADD CLASS NAME 'SELECTED' ONLY TO BUTTON THAT WAS CLICKED//
+  
+
+  function handleCategoryClick(category) {
+    setCategory(category)
     const buttons = document.querySelectorAll('div.categories button')
-    // const buttonsArray = Array.from(buttons)
-    // console.log('buttonsArray', buttonsArray)
+    //clear 'selected' class from all buttons
     buttons.forEach(button => {
       button.className = ''
     })
+    //add 'selected' class to selected button
     buttons.forEach(button => {
-      console.log(button.innerText)
-      if (button.innerText === selectedCategory) {
+      
+      if (button.innerText === category) {
         button.className = 'selected'
       }
+      //console.log(button.innerText, button.className)
     })
-    renderTasks(selectedCategory, buttons)
-  }
 
-  function renderTasks(selectedCategory, buttons) {
-    buttons.forEach(button => {
-      if (button.className === 'selected') {
-        setTasks(tasks.filter (task => {
-          return task.category ===selectedCategory
-        }))
-      }
-    })
     
-    // setTasks(tasks.filter(task => {
-    //   return task.category === selectedCategory
-    // }))
   }
 
+  
+  // function renderTasks(selectedCategory, buttons) {
+  //   buttons.forEach(button => {
+  //     if (button.className === 'selected') {
+  //       setTasks(tasks.filter (task => {
+  //         return task.category ===selectedCategory
+  //       }))
+  //     }
+  //   })
+  // }
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    setTasks([...tasks, newTask])
+  }
 
   function handleDelete(deletedTask) {
     //console.log(deletedTask)
@@ -59,11 +68,19 @@ function App() {
       <CategoryFilter 
       categories={CATEGORIES} 
       handleCategoryClick={handleCategoryClick}
+      selectedCategory={selectedCategory}
+      setCategory={setCategory}
       />
-      <NewTaskForm />
+      <NewTaskForm
+      categories={CATEGORIES}
+      newTask={newTask}
+      setNewTask={setNewTask}
+      onTaskFormSubmit={handleSubmit}
+      />
       <TaskList 
       tasks={tasks}
       handleDelete={handleDelete}
+      category={selectedCategory}
       />
     </div>
   );

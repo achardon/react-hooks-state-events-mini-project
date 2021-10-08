@@ -1,6 +1,6 @@
 import React from "react";
 
-function CategoryFilter({categories, handleCategoryClick}) {
+function CategoryFilter({categories, handleCategoryClick, selectedCategory, setCategory}) {
   
   
   return (
