@@ -18,7 +18,13 @@ function App() {
   })
   const [selectedCategory, setCategory] = useState('All')
 
-  
+  let displayedTasks = [...tasks]
+
+  if (selectedCategory !== 'All') {
+    displayedTasks = tasks.filter(task => {
+      return task.category === selectedCategory
+    })
+  } 
 
   function handleCategoryClick(category) {
     setCategory(category)
@@ -39,20 +45,13 @@ function App() {
     
   }
 
-  
-  // function renderTasks(selectedCategory, buttons) {
-  //   buttons.forEach(button => {
-  //     if (button.className === 'selected') {
-  //       setTasks(tasks.filter (task => {
-  //         return task.category ===selectedCategory
-  //       }))
-  //     }
-  //   })
-  // }
-
   function handleSubmit(event) {
     event.preventDefault()
     setTasks([...tasks, newTask])
+    setNewTask({
+      text: '',
+      category: 'Code'
+    })
   }
 
   function handleDelete(deletedTask) {
@@ -78,9 +77,8 @@ function App() {
       onTaskFormSubmit={handleSubmit}
       />
       <TaskList 
-      tasks={tasks}
+      tasks={displayedTasks}
       handleDelete={handleDelete}
-      category={selectedCategory}
       />
     </div>
   );
