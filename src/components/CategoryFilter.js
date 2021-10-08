@@ -1,6 +1,6 @@
 import React from "react";
 
-function CategoryFilter({categories}) {
+function CategoryFilter({categories, handleCategoryClick}) {
   
   
   return (
@@ -11,6 +11,9 @@ function CategoryFilter({categories}) {
         return (
           <button 
           key={category}
+          onClick={e => 
+            handleCategoryClick(category)
+          }
           >{category}
           </button>
         )
